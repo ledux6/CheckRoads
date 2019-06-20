@@ -1,0 +1,7 @@
+index:
+    path: /
+    controller: App\Controller\UncheckedSectionsController::index
+
+checkroad:
+    path: /check-road
+    controller: App\Controller\UncheckedSectionsController::checkRoad

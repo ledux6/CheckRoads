@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <form action='check-road' method="post">
+        <select name="road">
+            {% for road in roads %}
+                <option value="{{ road.SectionId }}">{{ road.SectionName }}</option>
+            {% endfor %}
+        </select>
+        <input type='submit' name='Tikrinti Ruožą'/>
+    </form>
+    {% if section is defined %}
+        <p>Kelio ruožas {{ section[0].SectionName }} prasideda nuo {{ section[0].SectionBegin }} km. Baigiasi {{ section[0].SectionEnd }} km. </p>
+    {% endif %}
+
+    {% if roadChecked is defined and roadChecked == false %}
+        <p>Kelias paskutinias 30 dienų nebuvo tvarkytas nuo {{ section[0].SectionBegin }}km. Kelio ilgis {{ section[0].SectionEnd -  section[0].SectionBegin  }}km</p>
+    {% endif %}
+    {% if roadChecked is defined and roadChecked == true and slices is defined %}
+        <p>Per paskutines 30 dienų liko netvarkyti ruožai:</p>
+        {% for slice in slices %}
+            <p>Po {{ slice.job_number }} darbo liko nesutvarkytas ruožas nuo {{ slice.section_begin }}km iki {{ slice.section_end }}km</p>
+        {% endfor %}
+        <p>Liko nesutvarkyta {{ unchecked_kilometers }}km</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
